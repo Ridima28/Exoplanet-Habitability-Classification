@@ -1,95 +1,108 @@
-Absolutely — based on your notebook, I’d keep the README **clean, project-focused, and GitHub-friendly**, without documenting every single preprocessing step.
+# 🪐 Exoplanet Habitability Classification
 
-# 🌌 Exoplanet Habitability Classification
+> **Can Machine Learning find patterns that distinguish potentially habitable worlds? 🌌**
 
-A machine learning project that classifies exoplanets based on their potential habitability using observational and planetary data from the **PHL Exoplanet Catalog (2019)**.
+A Machine Learning project that classifies exoplanets into different habitability categories using **real astronomical data** from the **NASA Exoplanet Archive / Planetary Habitability Laboratory dataset**.
 
-The project explores different classification algorithms, handles missing data and class imbalance, performs feature selection, and compares multiple machine learning models to identify the best-performing approach.
+The project explores data preprocessing, exploratory data analysis, feature selection, class balancing, model comparison, and hyperparameter tuning.
 
-## 🎯 Objective
+---
 
-The goal is to classify exoplanets into three categories:
+## 🎯 Project Overview
 
-* 🌍 **Habitable**
-* 🟡 **Potentially Habitable**
-* ❌ **Not-Habitable**
+The target variable is **`P_HABITABLE`**, treated as a multiclass classification problem.
 
-The dataset contains **4,048 exoplanets and 112 features**, including planetary properties, stellar characteristics, orbital parameters, and habitability-related attributes.
+The model classifies exoplanets into:
 
-## 🧠 Machine Learning Workflow
+* **Class 0** — Non-Habitable
+* **Class 1** — Moderately / Potentially Habitable
+* **Class 2** — Highly Habitable
 
-The project follows a typical end-to-end classification pipeline:
+The original dataset contained **4,048 observations and 112 features**.
 
-1. **Data Exploration & Analysis**
+---
 
-   * Dataset structure and feature analysis
-   * Missing-value analysis
-   * Exploratory visualization
+## 📊 Model Results
 
-2. **Data Preprocessing**
+| Model                |   Accuracy |  Precision |     Recall |   F1 Score |
+| -------------------- | ---------: | ---------: | ---------: | ---------: |
+| 🌳 **Random Forest** | **99.87%** | **99.92%** | **99.51%** | **99.71%** |
+| Decision Tree        |     99.74% |     99.83% |     99.02% |     99.42% |
+| Logistic Regression  |     98.84% |     99.13% |     95.59% |     97.20% |
+| Gradient Boosting    |     98.33% |     98.80% |     93.63% |     95.87% |
 
-   * Handling missing values
-   * Encoding categorical features
-   * Feature preparation
-   * Standardization where required
+### 🏆 Best Model
 
-3. **Class Imbalance Handling**
+**Random Forest Classifier**
 
-   * Applied **SMOTE** to balance the training data.
+---
 
-4. **Feature Selection**
+## 🔬 Feature Selection
 
-   * Used **Random Forest feature importance** to identify influential features.
+Feature selection was an important part of the project.
 
-5. **Model Training & Hyperparameter Tuning**
+The original dataset contained **112 features**, including planetary, stellar, and derived characteristics.
 
-   * Grid Search
-   * Randomized Search
-   * 5-fold cross-validation
+Features were analyzed using:
 
-6. **Model Evaluation**
+* Correlation analysis
+* Random Forest feature importance
+* Permutation Importance
+* Feature selection techniques
 
-   * Accuracy
-   * Precision
-   * Recall
-   * F1-score
-   * Classification report
-   * Confusion matrix
+The final model was built using a smaller set of relevant **raw physical measurements**, avoiding features that could introduce target leakage.
 
-## 🤖 Models Compared
+---
 
-* Decision Tree
-* Random Forest
-* K-Nearest Neighbors
-* Logistic Regression
-* Support Vector Machine
-* Stochastic Gradient Descent
-* Gaussian Naive Bayes
+## 🌳 Random Forest
 
-## 📊 Results
+The final Random Forest model was tuned using **GridSearchCV**.
 
-| Model               |   Accuracy | Weighted F1 |
-| ------------------- | ---------: | ----------: |
-| 🥇 Random Forest    | **98.26%** |  **98.27%** |
-| Decision Tree       |     95.79% |      95.83% |
-| SVM                 |     81.00% |      81.45% |
-| Logistic Regression |     73.89% |      73.73% |
-| SGD                 |     72.99% |      72.19% |
-| Naive Bayes         |     61.00% |      58.87% |
-| KNN                 |     33.52% |      16.83% |
+```text
+n_estimators: 100
+max_depth: 10
+min_samples_split: 20
+min_samples_leaf: 4
+max_features: sqrt
+```
 
-### 🏆 Best Model: Random Forest
+---
 
-Random Forest achieved the best overall performance with:
+## 🔄 Machine Learning Pipeline
 
-* **Accuracy:** 98.26%
-* **Precision:** 98.29%
-* **Recall:** 98.27%
-* **F1-score:** 98.27%
+```text
+Real Exoplanet Dataset
+        ↓
+Exploratory Data Analysis
+        ↓
+Missing Value Analysis
+        ↓
+Class Imbalance Analysis
+        ↓
+Data Resampling
+        ↓
+Feature Selection
+        ↓
+Train / Test Split
+        ↓
+Feature Scaling
+        ↓
+Multiple ML Models
+        ↓
+Cross-Validation
+        ↓
+GridSearchCV
+        ↓
+Final Random Forest
+        ↓
+Evaluation
+```
 
-Class-wise performance was also strong, with F1-scores around **0.98–0.99** across all three classes.
+---
 
-## 🛠️ Tech Stack
+## 🛠️ Techniques & Libraries
+
+### Libraries
 
 * Python
 * Pandas
@@ -97,42 +110,132 @@ Class-wise performance was also strong, with F1-scores around **0.98–0.99** ac
 * Matplotlib
 * Seaborn
 * Scikit-learn
-* Imbalanced-learn
-* Jupyter Notebook
+* XGBoost
+* ELI5
+
+### Techniques
+
+* Exploratory Data Analysis
+* Data preprocessing
+* Class balancing
+* Feature selection
+* Random Forest Feature Importance
+* Permutation Importance
+* StandardScaler
+* Multiclass Classification
+* Cross-Validation
+* GridSearchCV
+* Confusion Matrix
+* Classification Metrics
+
+---
+
+## 🌌 Important Features
+
+The final feature set focuses on physical characteristics such as:
+
+* Planetary orbital period
+* Semi-major axis
+* Stellar distance
+* Stellar mass
+* Stellar radius
+* Stellar temperature
+* Stellar surface gravity
+
+These features provide information about both the **planet and its host star**.
+
+---
+
+## ⚠️ Limitations
+
+This project is **not a definitive habitability detector**.
+
+Actual planetary habitability depends on many factors, including atmospheric composition, surface conditions, radiation environment, magnetic fields, and other characteristics that aren't fully represented in this dataset.
+
+Therefore, the model's accuracy reflects its ability to classify the **available dataset labels**, not certainty that an exoplanet can support life.
+
+---
+
+## 📈 Key Takeaways
+
+* Real astronomical datasets can be highly imbalanced and contain substantial missing data.
+* Feature selection can be as important as model selection.
+* High accuracy should always be investigated for possible data leakage.
+* Ensemble models can perform strongly on structured astronomical data.
+* Domain knowledge is important when deciding which features make scientific sense.
+
+---
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/Ridima28/exoplanet-habitability.git
+
+cd exoplanet-habitability
+
+pip install -r requirements.txt
+```
+
+### Requirements
+
+```text
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+xgboost
+eli5
+```
+
+---
 
 ## 📁 Project Structure
 
 ```text
-Exoplanet-Habitability-Classification/
+exoplanet-habitability/
 │
-├── main.ipynb
-├── phl_exoplanet_catalog_2019.csv
+├── images/
+│
+├── models/
+│   └── column_names.txt
+│   └── main.ipynb
+│   └── model.pkl
+│   └── phl_exoplanet_catalog_2019.csv
+│  
 └── README.md
 ```
 
-## 🚀 How to Run
+---
 
-Clone the repository:
+## 📚 Dataset
 
-```bash
-git clone <your-repository-url>
-cd Exoplanet-Habitability-Classification
-```
+**Dataset:** PHL Exoplanet Catalog
+**Source:** Planetary Habitability Laboratory / NASA-related astronomical data
 
-Install the required libraries:
+The dataset contains planetary and stellar parameters used to study exoplanet habitability.
 
-```bash
-pip install pandas numpy matplotlib seaborn scikit-learn imbalanced-learn jupyter
-```
+---
 
-Run the notebook:
+## 🚀 Future Improvements
 
-```bash
-jupyter notebook main.ipynb
-```
+* Add more scientifically relevant planetary parameters
+* Improve missing-value handling
+* Explore SHAP for explainability
+* Test additional ensemble methods
+* Incorporate newer exoplanet observations
+* Build an interactive prediction interface
 
-## 🔭 Key Takeaway
+---
 
-This project demonstrates how classical machine learning techniques can be applied to astronomical data to investigate patterns related to exoplanet habitability.
+## 👩‍💻 Author
 
-It also provided practical experience with **imbalanced classification, feature selection, hyperparameter tuning, cross-validation, and ensemble learning**.
+**Ridima**
+
+**Machine Learning × Astronomy 🪐🌌**
+
+Interested in applying Machine Learning to **astronomy, Earth/space science, and scientific problems**.
+
+---
+
+⭐ **If you found this project interesting, consider starring the repository!**
