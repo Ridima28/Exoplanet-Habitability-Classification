@@ -14,9 +14,9 @@ The target variable is **`P_HABITABLE`**, treated as a multiclass classification
 
 The model classifies exoplanets into:
 
-* **Class 0** — Non-Habitable
-* **Class 1** — Moderately / Potentially Habitable
-* **Class 2** — Highly Habitable
+* **Class 0** — Inhabitable
+* **Class 1** —  Potentially Habitable
+* **Class 2** — Positively Habitable
 
 The original dataset contained **4,048 observations and 112 features**.
 
@@ -24,16 +24,19 @@ The original dataset contained **4,048 observations and 112 features**.
 
 ## 📊 Model Results
 
-| Model                |   Accuracy |  Precision |     Recall |   F1 Score |
-| -------------------- | ---------: | ---------: | ---------: | ---------: |
-| 🌳 **Random Forest** | **99.87%** | **99.92%** | **99.51%** | **99.71%** |
-| Decision Tree        |     99.74% |     99.83% |     99.02% |     99.42% |
-| Logistic Regression  |     98.84% |     99.13% |     95.59% |     97.20% |
-| Gradient Boosting    |     98.33% |     98.80% |     93.63% |     95.87% |
+
+| Model             | Accuracy | Precision | Recall | F1 Score | Time Taken (s) |
+|-------------------|----------|-----------|--------|----------|----------------|
+| Decision Tree     | 90.68%   | 92.79%    | 90.56% | 90.46%   | 0.002650       |
+| Gradient Boosting | 90.68%   | 92.79%    | 90.56% | 90.46%   | 0.323745       |
+| **KNN**           | **98.34%** | **98.40%** | **98.36%**     | **98.34%**| **0.094308** |
 
 ### 🏆 Best Model
 
-**Random Forest Classifier**
+**K-Nearest Neighbor**
+
+Although the Decision Tree had the fastest execution time, KNN provides a much better balance between **classification performance and execution time**.
+
 
 ---
 
@@ -47,26 +50,13 @@ Features were analyzed using:
 
 * Correlation analysis
 * Random Forest feature importance
-* Permutation Importance
+* Ada Boost Classifier
 * Feature selection techniques
 
 The final model was built using a smaller set of relevant **raw physical measurements**, avoiding features that could introduce target leakage.
 
 ---
 
-## 🌳 Random Forest
-
-The final Random Forest model was tuned using **GridSearchCV**.
-
-```text
-n_estimators: 100
-max_depth: 10
-min_samples_split: 20
-min_samples_leaf: 4
-max_features: sqrt
-```
-
----
 
 ## 🔄 Machine Learning Pipeline
 
@@ -85,15 +75,11 @@ Feature Selection
         ↓
 Train / Test Split
         ↓
-Feature Scaling
-        ↓
 Multiple ML Models
-        ↓
-Cross-Validation
         ↓
 GridSearchCV
         ↓
-Final Random Forest
+Final KNN
         ↓
 Evaluation
 ```
@@ -121,30 +107,13 @@ Evaluation
 * Feature selection
 * Random Forest Feature Importance
 * Permutation Importance
-* StandardScaler
+* MinMax scaler
 * Multiclass Classification
-* Cross-Validation
 * GridSearchCV
 * Confusion Matrix
-* Classification Metrics
 
 ---
 
-## 🌌 Important Features
-
-The final feature set focuses on physical characteristics such as:
-
-* Planetary orbital period
-* Semi-major axis
-* Stellar distance
-* Stellar mass
-* Stellar radius
-* Stellar temperature
-* Stellar surface gravity
-
-These features provide information about both the **planet and its host star**.
-
----
 
 ## ⚠️ Limitations
 
@@ -171,9 +140,9 @@ Therefore, the model's accuracy reflects its ability to classify the **available
 ```bash
 git clone https://github.com/Ridima28/exoplanet-habitability.git
 
-cd exoplanet-habitability
+cd exoplanet-habitability-classification
 
-pip install -r requirements.txt
+
 ```
 
 ### Requirements
@@ -198,8 +167,7 @@ exoplanet-habitability/
 ├── images/
 │
 ├── models/
-│   └── column_names.txt
-│   └── main.ipynb
+│   └── model.ipynb
 │   └── model.pkl
 │   └── phl_exoplanet_catalog_2019.csv
 │  
